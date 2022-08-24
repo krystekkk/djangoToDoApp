@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My ToDo App</title>
+
+    <style>
+        .center-text {
+            text-align: center;
+        }
+
+        .center-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    {% block content %}
+        <div class="center-text">
+            <h1>My todos for today</h1>
+        </div>
+
+        {% if todos %}
+            <div class="center-text">
+                {% for todo in todos %}
+                    <p>{{ todo.name }}, {{ todo.created|timesince }} ago</p>
+                    <div class="center-buttons">
+                        <form action="{% url 'view' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-info" name="edit" value="{{ todo.id }}">Edit</button>
+                        </form>
+
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" name="delete" value="{{ todo.id }}">Delete</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="center-text">
+                <h5>Looks like you have no any todos for today :)</h5>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+</body>
+</html>

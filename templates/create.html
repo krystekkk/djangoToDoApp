@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create</title>
+</head>
+<body>
+
+    {% block content %}
+        <form class="form" action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="new_todos" class="form-label">New note</label>
+                {{ form.name }}
+            </div>
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+    {% endblock %}
+
+</body>
+</html>
