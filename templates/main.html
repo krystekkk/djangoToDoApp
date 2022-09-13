@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My ToDo App</title>
+    <title>{% block title %}My ToDo App{% endblock %}</title>
 
     <style>
         .center-text {
@@ -23,23 +23,29 @@
 
     {% block content %}
         <div class="center-text">
-            <h1>My todos for today</h1>
+            <h1>Your todos for today, {{ user }}</h1>
         </div>
 
         {% if todos %}
             <div class="center-text">
                 {% for todo in todos %}
-                    <p>{{ todo.name }}, {{ todo.created|timesince }} ago</p>
-                    <div class="center-buttons">
-                        <form action="{% url 'view' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-info" name="edit" value="{{ todo.id }}">Edit</button>
-                        </form>
+                    <div style="margin-bottom: 20px">
+                        {% if user == todo.author %}
+                            <h5>{{ todo.name }}</h5>
+                            <p>{{ todo.created|timesince }} ago</p>
 
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger" name="delete" value="{{ todo.id }}">Delete</button>
-                        </form>
+                            <div class="center-buttons">
+                                <form action="{% url 'edit' todo.id %}" method="get">
+                                    <button type="submit" class="btn btn-info" name="edit" value="{{ todo.id }}">Edit</button>
+                                </form>
+
+                                <form action="" method="post" style="margin-left: 5px">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" name="delete" value="{{ todo.id }}">Delete</button>
+                                </form>
+                            </div>
+                            <hr style="margin-left: 10%; margin-right: 10%">
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

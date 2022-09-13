@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Edit{% endblock %}</title>
+</head>
+<body>
+
+    {% block content %}
+        {% if post %}
+            <form method="post" style="margin: 15px">
+                {% csrf_token %}
+                <h3>{{ post.name }}</h3>
+                <h6>{{ post.created|timesince }} ago</h6>
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        {% endif %}
+    {% endblock %}
+
+</body>
+</html>
